@@ -1,2 +1,2 @@
-# EODP
-Earth Observation Data Processing
+# eodp
+EODP main repository
