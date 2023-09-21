@@ -20,23 +20,23 @@ for band in bands:
     toa_myoutputs = readToa(directory_myoutputs,'l1b_toa_'+band+'.nc')
     toa_myoutputsFalseEq = readToa(directory_myoutputsFalseEq,'l1b_toa_'+band+'.nc')
 
-# Calculate the absolute difference between the matrices
-absolute_difference = np.abs(toa_luss - toa_myoutputs)
+    # Calculate the absolute difference between the matrices
+    absolute_difference = np.abs(toa_luss - toa_myoutputs)
 
-# Count the number of entries where the difference is less than 0.01 percent
-num_entries_below_threshold = np.sum(absolute_difference < 0.0001)
+    # Count the number of entries where the difference is less than 0.01 percent
+    num_entries_below_threshold = np.sum(absolute_difference < 0.0001)
 
-# Calculate the total number of entries in the matrices
-total_entries = toa_myoutputs.size
+    # Calculate the total number of entries in the matrices
+    total_entries = toa_myoutputs.size
 
-# Calculate the percentage of entries below the threshold
-percentage_below_threshold = (num_entries_below_threshold / total_entries) * 100
+    # Calculate the percentage of entries below the threshold
+    percentage_below_threshold = (num_entries_below_threshold / total_entries) * 100
 
-# Check if at least 97.3 percent of the entries are below the threshold
-if percentage_below_threshold >= 97.3:
-    print("At least 97.3% of the entries are less than 0.01% different.")
-else:
-    print("Less than 97.3% of the entries are less than 0.01% different.")
+    # Check if at least 97.3 percent of the entries are below the threshold
+    if percentage_below_threshold >= 97.3:
+        print("At least 97.3% of the entries are less than 0.01% different.")
+    else:
+        print("Less than 97.3% of the entries are less than 0.01% different.")
 
 
 
