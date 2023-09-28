@@ -93,6 +93,8 @@ class opticalPhase(initIsm):
         :return: TOA image in irradiances [mW/m2]
         """
         # TODO
+        rad2irrad = Tr * np.pi * (D/f)*(D/f)/4
+        toa = toa * rad2irrad
         return toa
 
 
@@ -114,6 +116,26 @@ class opticalPhase(initIsm):
         :param band: band
         :return: TOA image 2D in radiances [mW/m2]
         """
+
+        isrf, isrf_wv = readIsrf(self.auxdir + self.ismConfig.isrffile, band)
+        isrf_n = isrf/np.sum(isrf)
+
+
+        # Multiply each of the values of the array with the filter, but first we need to interpolate.
+        # Need to make the across track and the along track of the values (i_act, i_alt) of our input cube (ACT:100pix;ALT:150pix)
+        # We are going to iterate with a double loop. We will get the 1D vector in the spectral dimension.
+
+        toa = np.zeros((sgm_toa.shape[0], sgm_toa.shape[1]))
+
+        # Double loop:
+        for row in range(sgm_toa.shape[0]):
+            for columns in range(sgm_toa.shape[1]):
+                # Interpolation
+                cs = interp1d(sgm_wv, sgm_toa[row, columns, :], fill_value=(0, 0), bounds_error=False)
+                toa_interp = cs(isrf_wv * 1000)
+                # Sum it up
+                toa[row, columns] = np.sum(toa_interp * isrf_n)
+
         # TODO
         return toa
 
