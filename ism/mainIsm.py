@@ -5,8 +5,10 @@ from ism.src.ism import ism
 
 # Directory - this is the common directory for the execution of the E2E, all modules
 auxdir = r'C:\Users\diego\PycharmProjects\pythonProjectNewGIT\auxiliary'
-indir = r"C:\\Users\\diego\\PycharmProjects\\EODP_TER_2021\\EODP-TS-ISM\\input\\gradient_alt100_act150" # small scene
-outdir = r"C:\\Users\\diego\\PycharmProjects\\EODP_TER_2021\\EODP-TS-ISM\\myoutput"
+# indir = r"C:\\Users\\diego\\PycharmProjects\\EODP_TER_2021\\EODP-TS-ISM\\input\\gradient_alt100_act150" # small scene
+indir = r"C:\\Users\\diego\\PycharmProjects\\EODP_TER_2021\\EODP-TS-E2E\\sgm_out"
+# outdir = r"C:\\Users\\diego\\PycharmProjects\\EODP_TER_2021\\EODP-TS-ISM\\myoutput"
+outdir = r"C:\\Users\\diego\\PycharmProjects\\EODP_TER_2021\\EODP-TS-ISM\\myoutput\\newOutput"
 
 
 # Initialise the ISM

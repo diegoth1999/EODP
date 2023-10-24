@@ -5,8 +5,8 @@ from l1b.src.l1b import l1b
 
 # Directory - this is the common directory for the execution of the E2E, all modules
 auxdir = r'C:\Users\diego\PycharmProjects\pythonProjectNewGIT\auxiliary'
-indir = r"C:\\Users\diego\\PycharmProjects\\EODP_TER_2021\\EODP-TS-L1B\\input"
-outdir = r"C:\\Users\\diego\\PycharmProjects\\EODP_TER_2021\\EODP-TS-L1B\\myoutputs"
+indir = r"C:\\Users\\diego\\PycharmProjects\\EODP_TER_2021\\EODP-TS-ISM\\myoutput\\newOutput"
+outdir = r"C:\\Users\\diego\\PycharmProjects\\EODP_TER_2021\\EODP-TS-L1B\\myoutputs\\newOutput"
 
 # Initialise the ISM
 myL1b = l1b(auxdir, indir, outdir)
