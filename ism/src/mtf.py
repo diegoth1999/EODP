@@ -219,6 +219,74 @@ class mtf:
         :param band: band
         :return: N/A
         """
+        global filenameSave
+        halfAct = int(np.floor(fnAct.shape[0] / 2))
+        halfAlt = int(np.floor(fnAlt.shape[0] / 2))
+        fig, ax = plt.subplots()
+        plt.suptitle('Alt = ' + str(halfAlt) + ' for ' + band)
+        x_1 = fnAct[halfAct:]
+        y_1 = Hdiff[halfAlt, halfAct:]
+        y_2 = Hdefoc[halfAlt, halfAct:]
+        y_3 = Hwfe[halfAlt, halfAct:]
+        y_4 = Hdet[halfAlt, halfAct:]
+        y_5 = Hsmear[halfAlt, halfAct:]
+        y_6 = Hmotion[halfAlt, halfAct:]
+        y_7 = Hsys[halfAlt, halfAct:]
+        ax.plot(x_1, y_1, 'r', label='Hdiff')
+        ax.plot(x_1, y_2, 'g', label='Hdefoc')
+        ax.plot(x_1, y_3, 'b', label='Hwfe')
+        ax.plot(x_1, y_4, 'k', label='Hdet')
+        ax.plot(x_1, y_5, 'y', label='Hsmear')
+        ax.plot(x_1, y_6, 'r', label='Hmotion')
+        ax.plot(x_1, y_7, 'g', label='Hsys')
+        plt.legend(loc='lower left')
+        plt.xlabel('Spatial Frequencies [-]')
+        plt.ylabel('MTF')
+        plt.grid(True)
+        plt.show()
+        fig.savefig(self.outdir + '/graph_mtf_alt_' + band + '_graph.png')
+
+        fig2, ax2 = plt.subplots()
+        x_2 = fnAlt[halfAlt:]
+        y_1 = Hdiff[halfAlt:, halfAct]
+        y_2 = Hdefoc[halfAlt:, halfAct]
+        y_3 = Hwfe[halfAlt:, halfAct]
+        y_4 = Hdet[halfAlt:, halfAct]
+        y_5 = Hsmear[halfAlt:, halfAct]
+        y_6 = Hmotion[halfAlt:, halfAct]
+        y_7 = Hsys[halfAlt:, halfAct]
+
+        a = 'Act = ' + str(halfAct) + ' for ' + band
+        plt.suptitle(a)
+        plt.grid(True)
+        plt.xlabel('Spatial Frequencies [-]')
+        plt.ylabel('MTF')
+        ax2.plot(x_2, y_1, 'r', label='Hdiff')
+        ax2.plot(x_2, y_2, 'g', label='Hdefoc')
+        ax2.plot(x_2, y_3, 'b', label='Hwfe')
+        ax2.plot(x_2, y_4, 'k', label='Hdet')
+        ax2.plot(x_2, y_5, 'y', label='Hsmear')
+        ax2.plot(x_2, y_6, 'r', label='Hmotion')
+        ax2.plot(x_2, y_7, 'g', label='Hsys')
+        plt.legend(loc='lower left')
+        plt.show()
+        fig2.savefig(self.outdir + '/graph_mtf_act_' + band + '_graph.png')
+
+        writeMat(self.outdir, "Hsys", Hsys)
+        writeMat(self.outdir, "Hdet", Hdet)
+
+        if band == 'VNIR-0':
+            filenameSave = ('C:/Users/diego/PycharmProjects/EODP_TER_2021/EODP-TS-ISM/myoutput/newOutputTry'
+                            '/mtf_nyquist.txt')
+            file = open(filenameSave, 'w')
+            file.truncate(0)
+            file.close()
+
+        with open(filenameSave, 'a') as the_file:
+            the_file.write(band + '\n')
+            the_file.write('mtf_nyquist Act' + '=' + str(Hsys[0, halfAct]) + '\n')
+            the_file.write('mtf_nyquist Alt' + '=' + str(Hsys[halfAlt, 0]) + '\n')
+
         #TODO
 
 
