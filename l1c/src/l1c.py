@@ -1,10 +1,11 @@
+from mgrspy import mgrs
 
 # LEVEL-1C
 
 from l1c.src.initL1c import initL1c
 from common.io.writeToa import writeToa, readToa
 from common.io.readGeodetic import readGeodetic, getCorners
-import mgrs
+import mgrspy
 import numpy as np
 from scipy.interpolate import bisplrep, bisplev
 import matplotlib.pyplot as plt
@@ -33,13 +34,13 @@ class l1c(initL1c):
             # L1C reprojection onto the MGRS grid
             # -------------------------------------------------------------------------------
             lat_l1c, lon_l1c, toa_l1c = self.l1cProjtoa(lat, lon, toa, band)
-
             # Write output TOA
             # -------------------------------------------------------------------------------
             writeL1c(self.outdir, self.globalConfig.l1c_toa + band, lat_l1c, lon_l1c, toa_l1c)
 
-            self.logger.info("End of BAND " + band)
+            self.plotL1cToa(lat_l1c, lon_l1c, toa_l1c, band)
 
+            self.logger.info("End of BAND " + band)
         self.logger.info("End of the L1C Module!")
 
 
@@ -63,6 +64,27 @@ class l1c(initL1c):
         :return: L1C radiances, L1C latitude and longitude in degrees
         '''
         #TODO
+
+        tck = bisplrep(lat, lon, toa)
+        m = mgrspy.mgrs
+        mgrs_tiles = set([])
+        mg_mgrs = np.zeros((lat.shape[0], lon.shape[1]))
+
+        for i in range(lat.shape[0]):
+            for j in range(lon.shape[1]):
+                mg_mgrs = str(m.toMgrs(lat[i, j], lon[i, j], self.l1cConfig.mgrs_tile_precision))
+                mgrs_tiles.add(mg_mgrs)
+
+        mgrs_tiles = list(mgrs_tiles)
+
+        lat_l1c = np.zeros(len(mgrs_tiles))
+        lon_l1c = np.zeros(len(mgrs_tiles))
+        toa_l1c = np.zeros(len(mgrs_tiles))
+
+        for i in range(len(mgrs_tiles)):
+            lat_l1c[i], lon_l1c[i] = m.toWgs(mgrs_tiles[i])
+            toa_l1c[i] = bisplev(lat_l1c[i], lon_l1c[i], tck)
+
         return lat_l1c, lon_l1c, toa_l1c
 
     def checkSize(self, lat,toa):
@@ -73,4 +95,41 @@ class l1c(initL1c):
         :param toa: Radiance 2D matrix
         :return: NA
         '''
+
+        if lat.shape[0] != toa.shape[0]:
+
+            print('Different Lat Arrays')
+
+        if lat.shape[1] != toa.shape[1]:
+            print('Different Lon Arrays')
+
         #TODO
+
+    def plotL1cToa(self, lat_l1c, lon_l1c, toa_l1c, band):
+        '''
+            NOTE: doesn't work, bug in the color property
+            Plot the L1B and L1C grids superimposed
+            :param lat: L1B latitudes [deg]
+            :param lon: L1B longitudes [deg]
+            :param lat_l1c: L1C latitudes [deg] - MGRS grid
+            :param lon_l1c: L1C longitudes [deg]
+            :return: NA
+            '''
+        jet = cm.get_cmap('jet', len(lat_l1c))
+        toa_l1c[np.argwhere(toa_l1c < 0)] = 0
+        max_toa = np.max(toa_l1c)
+        # Plot stuff
+        fig = plt.figure(figsize=(20, 10))
+
+        for ii in range(len(lat_l1c)):
+            clr = jet(toa_l1c[ii] / max_toa)
+            plt.plot(lon_l1c, lat_l1c, '.', color=clr, markersize=10)
+        plt.title('Projection on ground', fontsize=20)
+        plt.xlabel('Longitude [deg]', fontsize=16)
+        plt.ylabel('Latitude [deg]', fontsize=16)
+        plt.grid()
+        plt.axis('equal')
+        plt.savefig(self.outdir + 'toa_l1c' + band + '.png')
+        plt.close(fig)
+        #TODO
+
