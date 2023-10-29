@@ -7,8 +7,11 @@ from ism.src.ism import ism
 auxdir = r'C:\Users\diego\PycharmProjects\pythonProjectNewGIT\auxiliary'
 indir = r"C:\\Users\\diego\\PycharmProjects\\EODP_TER_2021\\EODP-TS-ISM\\input\\gradient_alt100_act150" # small scene
 # indir = r"C:\\Users\\diego\\PycharmProjects\\EODP_TER_2021\\EODP-TS-E2E\\sgm_out"
-outdir = r"C:\\Users\\diego\\PycharmProjects\\EODP_TER_2021\\EODP-TS-ISM\\myoutput\\newOutputTry"
+outdir = r"C:\\Users\\diego\\PycharmProjects\\EODP_TER_2021\\EODP-TS-ISM\\myoutput\\TestDetectionModule"
 # outdir = r"C:\\Users\\diego\\PycharmProjects\\EODP_TER_2021\\EODP-TS-ISM\\myoutput\\newOutput"
+
+
+
 
 
 # Initialise the ISM

@@ -49,37 +49,18 @@ for band in bands:
     else:
         print("Less than 97.3% of the entries are less than 0.01% different.")
 
-    # Plot the values of toa_luss_prev and toa_myoutputs_prev
-    plt.subplot(2, 2, bands.index(band) + 1)  # Create a 2x2 grid of subplots
-    x_values = np.arange(toa_luss_prev.size)  # Create x-axis values
-    plt.plot(x_values, toa_luss_prev, label='TOA Reference')
-    plt.plot(x_values, toa_myoutputs_prev, label='Tested TOA')
-
-    plt.xlabel('ACT [-]')
-    plt.ylabel('Radiances [mW/m2/sr]')
-    plt.title('Comparison TOA L1C (' + band + ')')
-    plt.legend()
-    plt.grid(True)
-    plotL1cToa(lat_l1c, lon_l1c, toa_l1c, band)
-
-plt.tight_layout()  # Adjust subplot layout for better spacing
-plt.show()
-
-def plotL1cToa(self, lat_l1c, lon_l1c, toa_l1c, band):
-    jet = cm.get_cmap('jet', len(lat_l1c))
-    toa_l1c[np.argwhere(toa_l1c < 0)] = 0
-    max_toa = np.max(toa_l1c)
-    # Plot stuff
-    fig = plt.figure(figsize=(20, 10))
-    clr = np.zeros(len(lat_l1c))
-    for ii in range(len(lat_l1c)):
-        clr = jet(toa_l1c[ii] / max_toa)
-        plt.plot(lon_l1c[ii], lat_l1c[ii], '.', color=clr, markersize=10)
-    plt.title('Projection on ground', fontsize=20)
-    plt.xlabel('Longitude [deg]', fontsize=16)
-    plt.ylabel('Latitude [deg]', fontsize=16)
-    plt.grid()
-    plt.axis('equal')
-    plt.savefig(self.outdir + 'toa_l1c' + band + '.png')
-    plt.close(fig)
-pass
+#     # Plot the values of toa_luss_prev and toa_myoutputs_prev
+#     plt.subplot(2, 2, bands.index(band) + 1)  # Create a 2x2 grid of subplots
+#     x_values = np.arange(toa_luss_prev.size)  # Create x-axis values
+#     plt.plot(x_values, toa_luss_prev, label='TOA Reference')
+#     plt.plot(x_values, toa_myoutputs_prev, label='Tested TOA')
+#
+#     plt.xlabel('ACT [-]')
+#     plt.ylabel('Radiances [mW/m2/sr]')
+#     plt.title('Comparison TOA L1C (' + band + ')')
+#     plt.legend()
+#     plt.grid(True)
+#
+# plt.tight_layout()  # Adjust subplot layout for better spacing
+# plt.show()
+#

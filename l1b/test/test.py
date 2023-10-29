@@ -40,7 +40,8 @@ for band in bands:
 
     # Plot the midpoint values for each band
     plt.subplot(2, 2, bands.index(band) + 1)  # Create a 2x2 grid of subplots
-    plt.plot(toa_input[int(toa_input.shape[0] / 2), :], label='TOA Reference')
+    plt.plot(toa_input[int(toa_input.shape[0] / 2), :], label='TOA ISRF')
+    plt.plot(toa_luss[int(toa_luss.shape[0] / 2), :], label='TOA Reference')
     plt.plot(toa_myoutputs[int(toa_myoutputs.shape[0] / 2), :], label='Tested TOA')
     plt.plot(toa_myoutputsFalseEq[int(toa_myoutputsFalseEq.shape[0] / 2), :], label='No EQ tested TOA')
 

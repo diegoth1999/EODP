@@ -107,10 +107,7 @@ class opticalPhase(initIsm):
         """
         # TODO
         GE = fft2(toa)
-        toa_1 = GE * fftshift(Hsys)
-        toa_ft = ifft2(toa_1)
-        toa_ft = np.real(toa_ft)
-
+        toa_ft = np.real(ifft2(GE * fftshift(Hsys)))
         return toa_ft
 
     def spectralIntegration(self, sgm_toa, sgm_wv, band):

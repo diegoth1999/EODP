@@ -22,6 +22,8 @@ directory_myoutputs = r'C:\Users\diego\PycharmProjects\EODP_TER_2021\EODP-TS-ISM
 plt.figure(figsize=(12, 8))  # Adjust the figure size as needed
 bands = ['VNIR-0','VNIR-1','VNIR-2','VNIR-3']
 
+print('Results of the Test Optical Module')
+print('-------------------------------------------------')
 
 for band in bands:
     # OPT
@@ -93,5 +95,44 @@ for band in bands:
     plt.legend()
     plt.grid(True)
 
+
+    # TOA Test Detection Module
+
+    toa_luss_DM = readToa(directory_luss, 'ism_toa_' + band + '.nc')
+    toa_myoutputs_DM = readToa(directory_myoutputs, 'ism_toa_' + band + '.nc')
+
+    # TOA Test Detection Module  - Calculate the absolute difference between the matrices for the optical case
+    absolute_difference = np.abs(toa_luss_DM - toa_myoutputs_DM)
+    print("Absolute difference for the 'ism_toa' for the Test Detection Module  is:", np.mean(absolute_difference))
+
+    # Count the number of entries where the difference is less than 0.01 percent
+    num_entries_below_threshold = np.sum(absolute_difference < 0.0001)
+    # Calculate the total number of entries in the matrices
+    total_entries = toa_myoutputs_DM.size
+
+    # Calculate the percentage of entries below the threshold
+    percentage_below_threshold = (num_entries_below_threshold / total_entries) * 100
+
+    # Check if at least 97.3 percent of the entries are below the threshold
+    if percentage_below_threshold >= 97.3:
+        print("At least 97.3% of the entries are less than 0.01% different.")
+    else:
+        print("Less than 97.3% of the entries are less than 0.01% different.")
+
+    # Plot the midpoint values for each band
+    plt.figure(3)
+    plt.subplot(2, 2, bands.index(band) + 1)  # Create a 2x2 grid of subplots
+    plt.plot(toa_luss_DM[int(toa_luss_DM.shape[0] / 2), :], label='TOA Detection Module Reference')
+    plt.plot(toa_myoutputs_DM[int(toa_myoutputs_DM.shape[0] / 2), :], label='Tested Detection Module TOA')
+
+    plt.xlabel('ACT [-]')
+    plt.ylabel('Radiances [mW/m2/sr]')
+    plt.title('Comparison TOA Detection Module (' + band + ')')
+    plt.legend()
+    plt.grid(True)
+
 plt.tight_layout()  # Adjust subplot layout for better spacing
 plt.show()
+
+
+

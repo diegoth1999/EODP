@@ -75,10 +75,18 @@ class l1b(initL1b):
         """
         #TODO
         toa=toa*gain
-        self.logger.debug('Sanity check. TOA in radiances after gain application ' + str(toa[1,-1]) + ' [mW/m2/sr]')
-
         return toa
 
     def plotL1bToa(self, toa_l1b, outputdir, band):
+        # Plot of the L1B TOA
+        # mid_value = int(toa_l1b.shape[0] / 2)
+        # fig, ax = plt.subplots()
+        # ax.plot(toa_l1b[mid_value, :], 'b')
+        # plt.suptitle('TOA_L1B')
+        # plt.xlabel('Across Track [-]')
+        # plt.ylabel('Radiances [mW/m2/sr]')
+        # plt.grid(True)
+        # plt.show
+        # fig.savefig(outputdir + '/l1b_toa_' + band + '_graphL1BTOA.png')
+        i = 1; # dummy
         #TODO
-        a=1 # dummy
