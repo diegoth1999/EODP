@@ -13,7 +13,6 @@ outdir = r"C:\\Users\\diego\\PycharmProjects\\EODP_TER_2021\\EODP-TS-ISM\\myoutp
 
 
 
-
 # Initialise the ISM
 myIsm = ism(auxdir, indir, outdir)
 myIsm.processModule()
